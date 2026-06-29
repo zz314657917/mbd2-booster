@@ -1,0 +1,17 @@
+{
+  "block.mbd2_booster.booster_base": "增幅基地",
+  "item.mbd2_booster.binding_tool": "增幅绑定工具",
+  "itemGroup.mbd2_booster.main": "MBD2 增幅",
+  "message.mbd2_booster.base_selected": "已选择增幅基地：%s。",
+  "message.mbd2_booster.target_bound": "已将目标 %s 绑定到增幅基地。",
+  "message.mbd2_booster.target_unbound": "已解绑目标 %s。",
+  "message.mbd2_booster.not_owner": "只有基地所有者或管理员可以这样做。",
+  "message.mbd2_booster.not_mbd2_machine": "目标不是 MBD2 机器。",
+  "message.mbd2_booster.cross_dimension": "第一版不支持跨维度绑定。",
+  "message.mbd2_booster.already_bound": "该目标已经绑定到其他增幅基地。",
+  "message.mbd2_booster.max_targets": "该基地最多只能绑定 %s 台目标机器。",
+  "message.mbd2_booster.base_missing": "已选择的增幅基地不存在。",
+  "message.mbd2_booster.target_info": "存储等级：%s，生效等级：%s，基地：%s",
+  "message.mbd2_booster.buff_paused": "Buff 已暂停：%s",
+  "message.mbd2_booster.debug_dirty": "已标记目标配方 dirty。"
+}

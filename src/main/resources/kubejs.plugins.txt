@@ -1,0 +1,1 @@
+com.lmteam.mbd2booster.integration.kubejs.BoosterKubeJSPlugin

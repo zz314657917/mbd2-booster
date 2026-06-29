@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.lmteam.mbd2booster.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MBDMachineMixin",
+    "MBDMultiblockMachineMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "mixins.mbd2_booster.refmap.json"
+}

@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "mbd2_booster:block/booster_base" }
+  }
+}

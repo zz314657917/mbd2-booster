@@ -1,0 +1,17 @@
+{
+  "block.mbd2_booster.booster_base": "Booster Base",
+  "item.mbd2_booster.binding_tool": "Booster Binding Tool",
+  "itemGroup.mbd2_booster.main": "MBD2 Booster",
+  "message.mbd2_booster.base_selected": "Selected booster base at %s.",
+  "message.mbd2_booster.target_bound": "Bound target %s to booster base.",
+  "message.mbd2_booster.target_unbound": "Unbound target %s.",
+  "message.mbd2_booster.not_owner": "Only the booster owner or an operator can do that.",
+  "message.mbd2_booster.not_mbd2_machine": "Target is not an MBD2 machine.",
+  "message.mbd2_booster.cross_dimension": "Cross-dimension binding is disabled.",
+  "message.mbd2_booster.already_bound": "That target is already bound to another booster base.",
+  "message.mbd2_booster.max_targets": "That booster base can bind at most %s target machines.",
+  "message.mbd2_booster.base_missing": "Selected booster base is missing.",
+  "message.mbd2_booster.target_info": "Stored level: %s, effective level: %s, base: %s",
+  "message.mbd2_booster.buff_paused": "Buff paused: %s",
+  "message.mbd2_booster.debug_dirty": "Marked target recipe dirty."
+}

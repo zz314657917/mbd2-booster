@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public' }
+        maven { url = 'https://maven.parchmentmc.org' }
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        maven {
+            name = 'firstdarkdev'
+            url = 'https://maven.firstdark.dev/snapshots'
+        }
+        maven {
+            url = 'https://maven.latvian.dev/releases'
+            content {
+                includeGroup 'dev.latvian.mods'
+            }
+        }
+        maven { url = 'https://maven.architectury.dev/' }
+    }
+}
+
+rootProject.name = 'mbd2-booster'
