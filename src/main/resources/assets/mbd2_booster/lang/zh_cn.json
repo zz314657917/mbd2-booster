@@ -9,8 +9,10 @@
   "message.mbd2_booster.not_mbd2_machine": "目标不是 MBD2 机器。",
   "message.mbd2_booster.cross_dimension": "第一版不支持跨维度绑定。",
   "message.mbd2_booster.already_bound": "该目标已经绑定到其他增幅基地。",
+  "message.mbd2_booster.not_bound": "该目标尚未绑定到增幅基地。",
   "message.mbd2_booster.max_targets": "该基地最多只能绑定 %s 台目标机器。",
   "message.mbd2_booster.base_missing": "已选择的增幅基地不存在。",
+  "message.mbd2_booster.base_changed": "已选择位置的增幅基地已变化，请重新选择基地。",
   "message.mbd2_booster.target_info": "存储等级：%s，生效等级：%s，基地：%s",
   "message.mbd2_booster.buff_paused": "Buff 已暂停：%s",
   "message.mbd2_booster.debug_dirty": "已标记目标配方 dirty。"

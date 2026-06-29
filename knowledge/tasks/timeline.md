@@ -1,5 +1,15 @@
 # Timeline
 
+## 2026-06-29 16:39 +08:00 - paste 审查 P0/P1 修复
+
+- 当前阶段：完成源码审查中指出的高风险边界修复，准备提交推送和运行态手测。
+- 本段重点：修复绑定工具 shift 解绑权限；绑定时校验选中基地 UUID 并标记 target holder dirty；材料 cost 按 item+NBT 汇总后模拟/扣除；未绑定目标等级不再生效；跨维度第一版代码层强制禁止；MBD2 依赖版本范围收紧。
+- 已完成：代码修改、语言键补充、构建依赖支持 `-Plocal_mbd2_jar=<path>` 覆盖、`./gradlew.bat build` 通过。
+- 关键决策：不引入不确定的远程 MBD2 Maven 坐标；继续默认使用本机兄弟目录 dev jar，但缺失时给出明确错误和覆盖参数。
+- 验证记录：`./gradlew.bat build` 通过；搜索确认旧 `ALLOW_CROSS_DIMENSION` 引用、旧未绑定目标等级效果路径和旧 MBD2 开放版本范围无残留。
+- 遗留问题：未做真实游戏内 smoke；KubeJS tags、完整 UI、升级材料和 MBD2Thread 兼容仍是后续项。
+- 下一步：scoped commit 并推送；部署新 jar 到 Forge 1.20.1 测试客户端；按权限、持久化、扣费、配方、并行、reload 做 smoke。
+
 ## 2026-06-28 22:45 +08:00 - 初始化仓库与知识库
 
 - 当前阶段：MBD2 Booster 第一版代码构建通过后进入项目知识化和交接阶段。

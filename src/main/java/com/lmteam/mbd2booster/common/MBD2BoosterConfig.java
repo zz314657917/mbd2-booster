@@ -14,7 +14,6 @@ public final class MBD2BoosterConfig {
     public static final ForgeConfigSpec.DoubleValue MAX_ENERGY_OUTPUT_MULTIPLIER;
     public static final ForgeConfigSpec.DoubleValue MIN_ENERGY_INPUT_MULTIPLIER;
     public static final ForgeConfigSpec.DoubleValue MAX_ENERGY_INPUT_MULTIPLIER;
-    public static final ForgeConfigSpec.BooleanValue ALLOW_CROSS_DIMENSION;
     public static final ForgeConfigSpec SPEC;
 
     static {
@@ -30,8 +29,8 @@ public final class MBD2BoosterConfig {
         MAX_ENERGY_OUTPUT_MULTIPLIER = BUILDER.defineInRange("maxEnergyOutputMultiplier", 64d, 0d, 1000d);
         MIN_ENERGY_INPUT_MULTIPLIER = BUILDER.defineInRange("minEnergyInputMultiplier", 0.05d, 0d, 1000d);
         MAX_ENERGY_INPUT_MULTIPLIER = BUILDER.defineInRange("maxEnergyInputMultiplier", 64d, 0d, 1000d);
-        ALLOW_CROSS_DIMENSION = BUILDER.comment("First release defaults to same-dimension binding only.")
-                .define("allowCrossDimension", false);
+        BUILDER.comment("Cross-dimension binding is intentionally unsupported in this release; binding code always enforces same dimension.")
+                .define("allowCrossDimensionUnsupported", false);
         BUILDER.pop();
         SPEC = BUILDER.build();
     }

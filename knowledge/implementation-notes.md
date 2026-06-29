@@ -43,6 +43,15 @@ Dirty refresh only marks loaded target machines. Offline targets are retained in
 - Base block entity stores `baseUuid`, `ownerUuid`, base level, inventory, FE and active buffs.
 - Target MBD2 block entity gets attached `TargetEvolution` capability with `targetUuid`, level and experience.
 - `BoosterSavedData` stores target/base indexes, base positions and last target machine record.
+- A stored target level only becomes effective while the target is bound to a booster base. When unbound, the stored level is retained but the effective level is `0`.
+
+## Binding And Cost Safety
+
+- Binding tool selections include base UUID, dimension and position. If the block at that position is replaced by another base, the tool clears the selection and requires selecting again.
+- Shift-unbind requires the selected base to own the target binding, or the player to be an operator, or the player to manage the actual owning base resolved from saved data.
+- Successful binding marks the target machine holder dirty so a newly generated target UUID is persisted with the target capability.
+- Buff material costs are merged by item and NBT before simulation and extraction, so duplicate cost entries must be backed by the combined item count.
+- Cross-dimension binding is intentionally unsupported in the first release and is enforced in code, not only by config.
 
 ## Current Limitations
 

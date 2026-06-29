@@ -54,7 +54,7 @@ public final class BoostService {
         var data = com.lmteam.mbd2booster.common.data.BoosterSavedData.get(level);
         var baseUuid = data.getBoundBase(targetUuid).orElse(null);
         if (baseUuid == null) {
-            return storedLevel;
+            return 0;
         }
         return Math.min(storedLevel, resolveBase(level, baseUuid).map(CachedBase::maxTargetLevel).orElse(storedLevel));
     }
@@ -112,7 +112,7 @@ public final class BoostService {
         var data = com.lmteam.mbd2booster.common.data.BoosterSavedData.get(level);
         var baseUuid = data.getBoundBase(targetUuid).orElse(null);
         if (baseUuid == null) {
-            return targetLevelEffect(machine, storedTargetLevel).clamp();
+            return BoostEffect.IDENTITY;
         }
         var base = resolveBase(level, baseUuid).orElse(null);
         if (base == null) {

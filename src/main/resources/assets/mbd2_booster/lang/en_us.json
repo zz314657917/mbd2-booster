@@ -9,8 +9,10 @@
   "message.mbd2_booster.not_mbd2_machine": "Target is not an MBD2 machine.",
   "message.mbd2_booster.cross_dimension": "Cross-dimension binding is disabled.",
   "message.mbd2_booster.already_bound": "That target is already bound to another booster base.",
+  "message.mbd2_booster.not_bound": "That target is not bound to a booster base.",
   "message.mbd2_booster.max_targets": "That booster base can bind at most %s target machines.",
   "message.mbd2_booster.base_missing": "Selected booster base is missing.",
+  "message.mbd2_booster.base_changed": "The selected booster base changed. Select a base again.",
   "message.mbd2_booster.target_info": "Stored level: %s, effective level: %s, base: %s",
   "message.mbd2_booster.buff_paused": "Buff paused: %s",
   "message.mbd2_booster.debug_dirty": "Marked target recipe dirty."

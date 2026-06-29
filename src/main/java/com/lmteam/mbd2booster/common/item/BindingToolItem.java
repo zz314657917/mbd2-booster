@@ -1,6 +1,5 @@
 package com.lmteam.mbd2booster.common.item;
 
-import com.lmteam.mbd2booster.common.MBD2BoosterConfig;
 import com.lmteam.mbd2booster.common.blockentity.BoosterBaseBlockEntity;
 import com.lmteam.mbd2booster.common.capability.BoosterCapabilities;
 import com.lmteam.mbd2booster.common.data.BindingRecord;
@@ -67,13 +66,19 @@ public class BindingToolItem extends Item {
             player.sendSystemMessage(Component.translatable("message.mbd2_booster.base_missing").withStyle(ChatFormatting.RED));
             return InteractionResult.CONSUME;
         }
-        if (!MBD2BoosterConfig.ALLOW_CROSS_DIMENSION.get() && selected.dimension() != targetLevel.dimension()) {
+        if (!selected.dimension().equals(targetLevel.dimension())) {
             player.sendSystemMessage(Component.translatable("message.mbd2_booster.cross_dimension").withStyle(ChatFormatting.RED));
             return InteractionResult.CONSUME;
         }
         var baseLevel = targetLevel.getServer().getLevel(selected.dimension());
         if (baseLevel == null || !(baseLevel.getBlockEntity(selected.pos()) instanceof BoosterBaseBlockEntity base)) {
             player.sendSystemMessage(Component.translatable("message.mbd2_booster.base_missing").withStyle(ChatFormatting.RED));
+            clearSelectedBase(stack);
+            return InteractionResult.CONSUME;
+        }
+        if (!base.baseUuid().equals(selected.baseUuid())) {
+            clearSelectedBase(stack);
+            player.sendSystemMessage(Component.translatable("message.mbd2_booster.base_changed").withStyle(ChatFormatting.RED));
             return InteractionResult.CONSUME;
         }
         if (!base.canManage(player)) {
@@ -88,6 +93,14 @@ public class BindingToolItem extends Item {
         var savedData = BoosterSavedData.get(targetLevel);
         var existingBase = savedData.getBoundBase(targetData.getTargetUuid()).orElse(null);
         if (player.isShiftKeyDown()) {
+            if (existingBase == null) {
+                player.sendSystemMessage(Component.translatable("message.mbd2_booster.not_bound").withStyle(ChatFormatting.RED));
+                return InteractionResult.CONSUME;
+            }
+            if (!canUnbind(player, targetLevel, existingBase, base)) {
+                player.sendSystemMessage(Component.translatable("message.mbd2_booster.not_owner").withStyle(ChatFormatting.RED));
+                return InteractionResult.CONSUME;
+            }
             savedData.unbind(targetData.getTargetUuid());
             BoostService.markDirty(targetLevel, new GlobalPosKey(targetLevel.dimension(), machine.getPos()));
             player.sendSystemMessage(Component.translatable("message.mbd2_booster.target_unbound", targetData.getTargetUuid()).withStyle(ChatFormatting.YELLOW));
@@ -112,6 +125,8 @@ public class BindingToolItem extends Item {
         boolean bound = savedData.bind(base.baseUuid(), new BindingRecord(targetData.getTargetUuid(),
                 new GlobalPosKey(targetLevel.dimension(), machine.getPos()), machineId));
         if (bound) {
+            machine.getHolder().setChanged();
+            machine.markDirty();
             BoostService.refreshBase(base);
             BoostService.markDirty(targetLevel, new GlobalPosKey(targetLevel.dimension(), machine.getPos()));
             player.sendSystemMessage(Component.translatable("message.mbd2_booster.target_bound", targetData.getTargetUuid()).withStyle(ChatFormatting.GREEN));
@@ -128,6 +143,16 @@ public class BindingToolItem extends Item {
         tag.putLong(SELECTED_POS, base.getBlockPos().asLong());
     }
 
+    private static void clearSelectedBase(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag == null) {
+            return;
+        }
+        tag.remove(SELECTED_BASE);
+        tag.remove(SELECTED_DIMENSION);
+        tag.remove(SELECTED_POS);
+    }
+
     private static SelectedBase readSelectedBase(ItemStack stack, ServerLevel fallbackLevel) {
         CompoundTag tag = stack.getTag();
         if (tag == null || !tag.hasUUID(SELECTED_BASE) || !tag.contains(SELECTED_DIMENSION) || !tag.contains(SELECTED_POS)) {
@@ -136,6 +161,25 @@ public class BindingToolItem extends Item {
         ResourceKey<Level> dimension = ResourceKey.create(net.minecraft.core.registries.Registries.DIMENSION,
                 new ResourceLocation(tag.getString(SELECTED_DIMENSION)));
         return new SelectedBase(tag.getUUID(SELECTED_BASE), dimension, BlockPos.of(tag.getLong(SELECTED_POS)));
+    }
+
+    private static boolean canUnbind(ServerPlayer player, ServerLevel level, java.util.UUID existingBase, BoosterBaseBlockEntity selectedBase) {
+        if (existingBase.equals(selectedBase.baseUuid())) {
+            return true;
+        }
+        if (player.hasPermissions(2)) {
+            return true;
+        }
+        var data = BoosterSavedData.get(level);
+        var ownerPos = data.getBasePos(existingBase).orElse(null);
+        if (ownerPos == null) {
+            return false;
+        }
+        var ownerLevel = level.getServer().getLevel(ownerPos.dimension());
+        if (ownerLevel == null || !(ownerLevel.getBlockEntity(ownerPos.pos()) instanceof BoosterBaseBlockEntity ownerBase)) {
+            return false;
+        }
+        return ownerBase.canManage(player);
     }
 
     private record SelectedBase(java.util.UUID baseUuid, ResourceKey<Level> dimension, BlockPos pos) {

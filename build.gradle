@@ -58,6 +58,13 @@ configurations.configureEach {
     exclude group: 'org.slf4j', module: 'slf4j-simple'
 }
 
+def configuredMbd2Jar = providers.gradleProperty('local_mbd2_jar')
+        .map { project.file(it) }
+        .getOrElse(project.file('../Multiblocked2-1.20.1/build/libs/multiblocked2-1.20.1-1.0.38.a.jar'))
+if (!configuredMbd2Jar.exists()) {
+    throw new GradleException("MBD2 dev jar not found: ${configuredMbd2Jar}. Build MBD2 locally or pass -Plocal_mbd2_jar=<path-to-dev-jar>.")
+}
+
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
@@ -84,7 +91,7 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:${ldlib_version}") { transitive = false }
-    implementation fg.deobf(files('../Multiblocked2-1.20.1/build/libs/multiblocked2-1.20.1-1.0.38.a.jar'))
+    implementation fg.deobf(files(configuredMbd2Jar))
 
     compileOnly fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}") { transitive = false }
     compileOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")

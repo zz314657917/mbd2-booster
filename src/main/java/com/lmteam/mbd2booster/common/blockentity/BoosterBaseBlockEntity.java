@@ -196,8 +196,8 @@ public class BoosterBaseBlockEntity extends BlockEntity {
         if (definition.energyCost() > 0 && energy.getEnergyStored() < definition.energyCost()) {
             return false;
         }
-        for (var cost : definition.costs()) {
-            if (!canExtract(cost.stack(), includeExternal)) {
+        for (var requested : mergedCostStacks(definition)) {
+            if (!canExtract(requested, includeExternal)) {
                 return false;
             }
         }
@@ -208,10 +208,30 @@ public class BoosterBaseBlockEntity extends BlockEntity {
         if (definition.energyCost() > 0) {
             energy.extractEnergy(definition.energyCost(), false);
         }
-        for (var cost : definition.costs()) {
-            extract(cost.stack());
+        for (var requested : mergedCostStacks(definition)) {
+            extract(requested);
         }
         setChanged();
+    }
+
+    private static List<ItemStack> mergedCostStacks(BuffDefinition definition) {
+        List<ItemStack> merged = new ArrayList<>();
+        for (var cost : definition.costs()) {
+            var stack = cost.stack();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            var existing = merged.stream()
+                    .filter(candidate -> ItemStack.isSameItemSameTags(candidate, stack))
+                    .findFirst()
+                    .orElse(null);
+            if (existing == null) {
+                merged.add(stack.copy());
+            } else {
+                existing.grow(stack.getCount());
+            }
+        }
+        return merged;
     }
 
     private boolean canExtract(ItemStack requested, boolean includeExternal) {

@@ -26,7 +26,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="mbd2"
 mandatory=true
-versionRange="[1.0.38.a,)"
+versionRange="[1.0.38.a,1.0.39)"
 ordering="AFTER"
 side="BOTH"
 

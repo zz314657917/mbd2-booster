@@ -11,7 +11,7 @@ $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
 
 ## Last Verified Build
 
-- Date: 2026-06-28
+- Date: 2026-06-29
 - Command: `./gradlew.bat build`
 - Result: `BUILD SUCCESSFUL`
 - Artifact: `build/libs/mbd2_booster-1.20.1-0.1.0.jar`
@@ -25,13 +25,19 @@ files(...) dependencies are not deobfuscated.
 Cannot deobfuscate dependency of type DefaultSelfResolvingDependency_Decorated, using obfuscated version!
 ```
 
-Reason: MBD2 is currently referenced as a direct file dependency:
+Reason: MBD2 is currently referenced as a direct file dependency. The default path is:
 
 ```gradle
-implementation fg.deobf(files('../Multiblocked2-1.20.1/build/libs/multiblocked2-1.20.1-1.0.38.a.jar'))
+../Multiblocked2-1.20.1/build/libs/multiblocked2-1.20.1-1.0.38.a.jar
 ```
 
-This compiled successfully with the current local jar. If the jar is replaced by an obfuscated release jar or CI needs reproducibility, publish a local dev jar coordinate and update the dependency.
+This compiled successfully with the current local jar. For a clean clone or a different local layout, pass a dev jar explicitly:
+
+```powershell
+./gradlew.bat build -Plocal_mbd2_jar="F:/path/to/multiblocked2-1.20.1-1.0.38.a.jar"
+```
+
+If the jar is replaced by an obfuscated release jar or CI needs full reproducibility, publish a local dev jar coordinate and update the dependency.
 
 ## Runtime Smoke Plan
 
