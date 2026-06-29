@@ -128,7 +128,13 @@ public class BoosterBaseBlockEntity extends BlockEntity {
 
     public void ensureOwner(ServerPlayer player) {
         if (ownerUuid == null) {
-            ownerUuid = player.getUUID();
+            assignOwner(player.getUUID());
+        }
+    }
+
+    public void assignOwner(UUID ownerUuid) {
+        if (this.ownerUuid == null && ownerUuid != null) {
+            this.ownerUuid = ownerUuid;
             setChanged();
         }
     }

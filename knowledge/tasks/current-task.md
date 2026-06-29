@@ -15,6 +15,7 @@
 - 创建项目知识库入口、构建验证说明、实现笔记、当前交接快照和时间轴。
 - 已执行 `./gradlew.bat build` 并通过。
 - 按 paste 审查修复 P0/P1：解绑权限校验、选中基地 UUID 校验、绑定后 target holder dirty、重复材料 cost 汇总扣费、未绑定目标等级不生效、跨维度第一版强制关闭、MBD2 版本范围收紧。
+- 补充基地放置时绑定放置者为 owner，首次交互认领只保留作旧存档/非玩家放置 fallback。
 
 ## 已确认事实
 
@@ -24,11 +25,13 @@
 - 并行效果走 MBD2 `getMaxParallel` mixin。
 - 目标存储等级在未绑定基地时保留，但当前生效等级为 0，配方不吃目标等级效果。
 - 跨维度绑定第一版代码层强制禁止。
+- 基地由玩家放置时会立即写入 `ownerUuid`，避免未交互前被他人抢先认领。
 - UI 注入尚未实现，当前用绑定工具和命令作为 fallback。
 
 ## 待验证点
 
 - 游戏内绑定流程：工具选择基地 -> 绑定目标 -> SavedData 正确记录。
+- 放置权限：玩家 A 放置基地后，玩家 B 首次右键/绑定选择不能接管 owner。
 - 权限边界：玩家 B 用自己的基地 shift 解绑玩家 A 的绑定目标应失败；OP 应可处理异常绑定。
 - 持久化：绑定后重启，目标 capability 的 `targetUuid` 应保持不变，绑定关系不丢。
 - 扣费：KubeJS 写重复相同材料 cost 时，库存不足总数应不能激活/续费 Buff。
@@ -52,5 +55,6 @@
 
 - `./gradlew.bat build`: 通过，2026-06-28。
 - `./gradlew.bat build`: 通过，2026-06-29，修复 paste 审查 P0/P1 后。
+- `./gradlew.bat build`: 通过，2026-06-29，基地放置者 owner 绑定修复后。
 - jar 内容检查：确认包含 `mods.toml`、`mixins.mbd2_booster.json`、`kubejs.plugins.txt`、Mixin、命令、绑定工具和 KubeJS 插件类。
 - 未执行真实游戏内 smoke。
